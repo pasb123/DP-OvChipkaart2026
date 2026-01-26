@@ -1,51 +1,27 @@
 package nl.hu.dp;
 
 import nl.hu.dp.dao.ReizigerDAO;
-import nl.hu.dp.dao.ReizigerDAOPsql;
+import nl.hu.dp.dao.ReizigerDAOHibernate;
 import nl.hu.dp.domain.Reiziger;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.cfg.Configuration;
 
 import java.sql.*;
 import java.util.List;
 
 public class Main {
-    //connection link for assignment
-    public static Connection connection;
+
 
     // connection method
-    private static Connection getConnection() {
-        String linkJB = "jdbc:postgresql://localhost:5432/ovchip";
-        String username = "postgres";
-        String password = "sand66";
-
-        try {
-            connection = DriverManager.getConnection(linkJB, username, password);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+    public static Session getSession() {
+        Session session;
+        try{
+            session= new Configuration().configure().buildSessionFactory().openSession();}
+        catch (HibernateException ex){
+            throw  new HibernateException(ex);
         }
-        return connection;
-    };
-    //close the connection
-    public static void closeConnection() throws SQLException {
-        if(connection != null){connection.close();
-        }
-
-
-    }
-    //test the connection
-    private static void testConnection() throws SQLException {
-        try {
-            ResultSet resultSet = getConnection().createStatement().executeQuery("SELECT * FROM reiziger");
-            while (resultSet.next()) {
-                System.out.println(resultSet.getString("reiziger_id") + " "
-                        + resultSet.getString("voorletters") + " "
-                        + resultSet.getString("achternaam") + " "
-                        + resultSet.getString("geboortedatum"));
-
-            }
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-        closeConnection();
+        return session;
     }
     /**
      * P2. main.java.nl.hu.main.java.nl.hu.ovchip.domain.Reiziger DAO: persistentie van een klasse
@@ -54,7 +30,7 @@ public class Main {
      *
      * @throws SQLException
      */
-    private static void testReizigerDAO(ReizigerDAO rdao) throws SQLException {
+    private static void testReizigerDAO(ReizigerDAO rdao) {
         System.out.println("\n---------- Test ReizigerDAO -------------");
 
         // Haal alle reizigers op uit de database
@@ -114,8 +90,7 @@ public class Main {
 
     }
     public static void main(String[] args) throws SQLException {
-        testConnection();
-        ReizigerDAOPsql reizigerDAOPsql=new ReizigerDAOPsql(getConnection());
-        testReizigerDAO(reizigerDAOPsql);
+        ReizigerDAOHibernate reizigerDAOHibernate = new ReizigerDAOHibernate(getSession());
+        testReizigerDAO(reizigerDAOHibernate);
     }
 }
