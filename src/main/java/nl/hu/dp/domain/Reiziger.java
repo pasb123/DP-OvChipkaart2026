@@ -1,10 +1,7 @@
 package nl.hu.dp.domain;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.sql.Date;
 
@@ -13,7 +10,7 @@ import java.sql.Date;
 public class Reiziger  {
     @Id
     @Column(name = "reiziger_id")
-    private int reiziger_id;
+    private Integer reiziger_id;
     @Column(name = "voorletters")
     private String voorletters;
     @Column(name= "tussenvoegsel")
@@ -22,6 +19,8 @@ public class Reiziger  {
     private String achternaam;
     @Column(name = "geboortedatum")
     private Date geboortedatum;
+    @OneToOne(mappedBy = "reiziger",cascade = CascadeType.ALL,fetch = FetchType.LAZY,orphanRemoval = true)
+    private Adres adres;
 
 
     protected Reiziger(){}
@@ -34,7 +33,7 @@ public class Reiziger  {
         this.geboortedatum=geboortedatum;
     }
 
-    public int getId() {
+    public Integer getId() {
         return reiziger_id;
     }
 
@@ -74,13 +73,23 @@ public class Reiziger  {
         this.geboortedatum = geboortedatum;
     }
 
+    public Adres getAdres() {
+        return adres;
+    }
+
+    public void setAdres(Adres adres) {
+        this.adres = adres;
+    }
+
     @Override
     public String toString() {
-        return "Reiziger met reiziger_id=" + getId() +
-                ", voorletters='" + getVoorletters() + '\'' +
-                ", tussenvoegsel='" + getTussenvoegsel() + '\'' +
-                ", achternaam='" + getAchternaam() + '\'' +
-                ", geboortedatum=" + getGeboortedatum() +
+        return "Reiziger{" +
+                "reiziger_id=" + reiziger_id +
+                ", voorletters='" + voorletters + '\'' +
+                ", tussenvoegsel='" + tussenvoegsel + '\'' +
+                ", achternaam='" + achternaam + '\'' +
+                ", geboortedatum=" + geboortedatum +
+                ", adres=" + (adres != null ? adres.getStraat() + " " + adres.getHuisnummer() : "Geen adres") +
                 '}';
     }
 }
