@@ -66,7 +66,8 @@ public class Adres {
                 ", postcode='" + postcode + '\'' +
                 ", straat='" + straat + '\'' +
                 ", woonplaats='" + woonplaats + '\'' +
-                ", huisnummer=" + huisnummer +
+                ", huisnummer='" + huisnummer + '\'' +
+                ", reiziger=" + reiziger.getReiziger_id() +
                 '}';
     }
 }
