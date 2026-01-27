@@ -11,6 +11,7 @@ public class Reiziger  {
     private String tussenvoegsel;
     private String achternaam;
     private Date geboortedatum;
+    private Adres adres;
 
     protected Reiziger(){}
 
@@ -62,13 +63,27 @@ public class Reiziger  {
         this.geboortedatum = geboortedatum;
     }
 
+    public int getReiziger_id() {
+        return reiziger_id;
+    }
+
+    public Adres getAdres() {
+        return adres;
+    }
+
+    public void setAdres(Adres adres) {
+        this.adres = adres;
+    }
+
     @Override
     public String toString() {
-        return "Reiziger met reiziger_id=" + getId() +
-                ", voorletters='" + getVoorletters() + '\'' +
-                ", tussenvoegsel='" + getTussenvoegsel() + '\'' +
-                ", achternaam='" + getAchternaam() + '\'' +
-                ", geboortedatum=" + getGeboortedatum() +
+        return "Reiziger{" +
+                "reiziger_id=" + reiziger_id +
+                ", voorletters='" + voorletters + '\'' +
+                ", tussenvoegsel='" + tussenvoegsel + '\'' +
+                ", achternaam='" + achternaam + '\'' +
+                ", geboortedatum=" + geboortedatum +
+                ", adres=" + adres +
                 '}';
     }
 }

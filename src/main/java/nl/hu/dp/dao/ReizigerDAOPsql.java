@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReizigerDAOPsql implements ReizigerDAO{
-    private Connection conn;
+    private final Connection conn;
+    private  AdresDAO adresDAO;
     public ReizigerDAOPsql(Connection conn) {
         this.conn = conn;
     }
@@ -20,8 +21,10 @@ public class ReizigerDAOPsql implements ReizigerDAO{
         statement.setString(3, reiziger.getTussenvoegsel());
         statement.setString(4, reiziger.getAchternaam());
         statement.setDate(5,reiziger.getGeboortedatum());
+
         statement.execute();
         statement.close();
+        adresDAO.save(reiziger.getAdres());
         return true;
     }
 
@@ -33,18 +36,22 @@ public class ReizigerDAOPsql implements ReizigerDAO{
         statement.setString(3, reiziger.getAchternaam());
         statement.setDate(4, reiziger.getGeboortedatum());
         statement.setInt(5, reiziger.getId());
+
         statement.executeUpdate();
         statement.close();
-
+        adresDAO.update(reiziger.getAdres());
         return false;
     }
 
     @Override
     public boolean delete(Reiziger reiziger) throws SQLException {
+        adresDAO.delete(reiziger.getAdres());
         PreparedStatement statement = conn.prepareStatement("" +"DELETE FROM reiziger where reiziger_id=?");
         statement.setInt(1, reiziger.getId());
+
         statement.execute();
         statement.close();
+
         return false;
     }
 
@@ -62,7 +69,9 @@ public class ReizigerDAOPsql implements ReizigerDAO{
                     resultSet.getString("tussenvoegsel"),
                     resultSet.getString("achternaam"),
                     resultSet.getDate("geboortedatum")
+
             );
+            reiziger.setAdres(adresDAO.findByReiziger(reiziger));
         }
 
         resultSet.close();
@@ -85,6 +94,7 @@ public class ReizigerDAOPsql implements ReizigerDAO{
                     resultSet.getString("achternaam"),
                     resultSet.getDate("geboortedatum")
             );
+            reiziger.setAdres(adresDAO.findByReiziger(reiziger));
             Reizigerlist.add(reiziger);
         }
         resultSet.close();
@@ -100,9 +110,13 @@ public class ReizigerDAOPsql implements ReizigerDAO{
         while (resultSet.next()){
             Reiziger reiziger= new  Reiziger(resultSet.getInt("reiziger_id"),resultSet.getString("voorletters"),resultSet.getString("tussenvoegsel"),
                     resultSet.getString("achternaam"),resultSet.getDate("geboortedatum"));
-
+            reiziger.setAdres(adresDAO.findByReiziger(reiziger));
             Reizigerlist.add(reiziger);
         }
         return Reizigerlist;
+    }
+
+    public void setAdresDAO(AdresDAO adresDAO) {
+        this.adresDAO = adresDAO;
     }
 }
