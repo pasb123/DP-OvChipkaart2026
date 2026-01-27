@@ -7,5 +7,6 @@
 <property name="hibernate.show_sql">false</property>
 <property name="hibernate.format_sql">false</property>
 <mapping class="nl.hu.dp.domain.Reiziger"/>
+<mapping class="nl.hu.dp.domain.Adres"/>
 </session-factory>
 </hibernate-configuration>

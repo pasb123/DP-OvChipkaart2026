@@ -59,7 +59,7 @@ public class ReizigerDAOHibernate implements ReizigerDAO {
 
     @Override
     public Reiziger findById(int id) {
-        return session.createQuery("select reiziger from Reiziger reiziger where reiziger.id = :id",
+        return session.createQuery("select reiziger from Reiziger reiziger where reiziger.reiziger_id = :id",
                 Reiziger.class).setParameter("id", id).uniqueResult();
     }
 
