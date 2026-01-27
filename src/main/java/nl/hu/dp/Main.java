@@ -1,7 +1,10 @@
 package nl.hu.dp;
 
+import nl.hu.dp.dao.AdresDAO;
+import nl.hu.dp.dao.AdresDAOPsql;
 import nl.hu.dp.dao.ReizigerDAO;
 import nl.hu.dp.dao.ReizigerDAOPsql;
+import nl.hu.dp.domain.Adres;
 import nl.hu.dp.domain.Reiziger;
 
 import java.sql.*;
@@ -48,14 +51,14 @@ public class Main {
         closeConnection();
     }
     /**
-     * P2. main.java.nl.hu.main.java.nl.hu.ovchip.domain.Reiziger DAO: persistentie van een klasse
+     * P2. main.java.nl.hu.main.java.nl.hu.dp.domain.Reiziger DAO: persistentie van een klasse
      *
-     * Deze methode test de CRUD-functionaliteit van de main.java.nl.hu.main.java.nl.hu.ovchip.domain.Reiziger DAO
+     * Deze methode test de CRUD-functionaliteit van de main.java.nl.hu.main.java.nl.hu.dp.domain.Reiziger DAO
      *
      * @throws SQLException
      */
-    private static void testReizigerDAO(ReizigerDAO rdao) throws SQLException {
-        System.out.println("\n---------- Test ReizigerDAO -------------");
+    private static void testReizigerDAO(ReizigerDAO rdao,AdresDAO adao) throws SQLException {
+        System.out.println("\n---------- Test ReizigerDAO en AdresDAO -------------");
 
         // Haal alle reizigers op uit de database
         List<Reiziger> reizigers = rdao.findAll();
@@ -64,29 +67,48 @@ public class Main {
             System.out.println(r);
         }
         System.out.println();
-
-        // Maak een nieuwe reiziger aan en persisteer deze in de database
+        // Haal alle adressen op
+        System.out.println("[Test] AdresDAO.findAll() geeft de volgende adressen:");
+        List<Adres> adressen=adao.findAll();
+        for (Adres a : adressen) {
+            System.out.println(a);
+        }
+        System.out.println();
+        // Maak een nieuwe reiziger+adres aan en persisteer deze in de database
         String gbdatum = "1981-03-14";
         Reiziger sietske = new Reiziger(77, "S", "", "Boers", Date.valueOf(gbdatum));
-        System.out.print("[Test] Eerst " + reizigers.size() + " reizigers, na ReizigerDAO.save() ");
+        System.out.print("[Test] Eerst " + reizigers.size() + " reizigers, na ReizigerDAO.save()  en AdresDAO.save ");
+        Adres adres=new Adres();
+        adres.setReiziger(sietske);
+        adres.setHuisnummer("1");
+        adres.setId(78);
+        adres.setPostcode("3951BE");
+        adres.setStraat("Tuindorpweg");
+        adres.setWoonplaats("Baarn");
+        sietske.setAdres(adres);
         rdao.save(sietske);
+
         reizigers = rdao.findAll();
         System.out.println(reizigers.size() + " reizigers\n");
         for (Reiziger r : reizigers) {
             System.out.println(r);
         }
 
-        //update
+        //update reiziger+adres
         Reiziger updateSietske=new Reiziger(77, "S O", "", "Boersen", java.sql.Date.valueOf(gbdatum));
-        System.out.print("[Test] Eerst " + reizigers.size() + " reizigers, na ReizigerDAO.update() ");
+        Adres updateAdres=adres;
+        updateAdres.setWoonplaats("Maarn");
+        updateSietske.setAdres(updateAdres);
+        System.out.print("[Test] Eerst " + reizigers.size() + " reizigers, na ReizigerDAO.update() en AdresDAO.update()");
         rdao.update(updateSietske);
+
         reizigers = rdao.findAll();
         System.out.println(reizigers.size() + " reizigers\n");
         for (Reiziger r : reizigers) {
             System.out.println(r);
         }
-        //delete
-        System.out.print("[Test] Eerst " + reizigers.size() + " reizigers, na ReizigerDAO.delete() ");
+        //delete reiziger+adres
+        System.out.print("[Test] Eerst " + reizigers.size() + " reizigers, na ReizigerDAO.delete() en AdresDAO.delete() ");
         rdao.delete(sietske);
         reizigers = rdao.findAll();
         System.out.println(reizigers.size() + " reizigers\n");
@@ -94,10 +116,10 @@ public class Main {
             System.out.println(r);
         }
         //findById
-        System.out.println("\n[Test] Test ReizigerDAO.findById()");
+        System.out.println("\n[Test] Test ReizigerDAO.findById() en AdresDAO.getByReiziger() ");
         Reiziger reizigerById = rdao.findById(5);
         if (reizigerById != null) {
-            System.out.println("Reiziger met ID: " + reizigerById.getId()+" "+ reizigerById.getAchternaam());
+            System.out.println("Reiziger met ID: " + reizigerById.getId()+" "+ reizigerById.getAchternaam()+" "+reizigerById.getAdres());
         } else {
             System.out.println("Geen reiziger gevonden");
 
@@ -115,7 +137,10 @@ public class Main {
     }
     public static void main(String[] args) throws SQLException {
         testConnection();
+        AdresDAOPsql adresDAOPsql=new AdresDAOPsql(getConnection());
         ReizigerDAOPsql reizigerDAOPsql=new ReizigerDAOPsql(getConnection());
-        testReizigerDAO(reizigerDAOPsql);
+        adresDAOPsql.setRdao(reizigerDAOPsql);
+        reizigerDAOPsql.setAdresDAO(adresDAOPsql);
+        testReizigerDAO(reizigerDAOPsql,adresDAOPsql);
     }
 }
