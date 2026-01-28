@@ -26,10 +26,12 @@ public class ReizigerDAOPsql implements ReizigerDAO{
 
         statement.execute();
         statement.close();
-        adresDAO.save(reiziger.getAdres());
-        for (OVChipkaart ovChipkaart: reiziger.getOvchipkaarten()){
+        if (reiziger.getAdres() != null) {
+        adresDAO.save(reiziger.getAdres());}
+        if (!reiziger.getOvchipkaarten().isEmpty()) {
+        for (OVChipkaart ovChipkaart: new ArrayList<>(reiziger.getOvchipkaarten())){
             odao.save(ovChipkaart);
-        }
+        }}
         return true;
     }
 
@@ -44,19 +46,25 @@ public class ReizigerDAOPsql implements ReizigerDAO{
 
         statement.executeUpdate();
         statement.close();
-        adresDAO.update(reiziger.getAdres());
-        for (OVChipkaart ovChipkaart: reiziger.getOvchipkaarten()){
-            odao.update(ovChipkaart);
+        if (reiziger.getAdres() != null) {
+        adresDAO.update(reiziger.getAdres());}
+        if (!reiziger.getOvchipkaarten().isEmpty()) {
+            for (OVChipkaart ovChipkaart : new ArrayList<>(reiziger.getOvchipkaarten())) {
+                odao.update(ovChipkaart);
+            }
         }
-        return false;
+
+            return false;
     }
 
     @Override
     public boolean delete(Reiziger reiziger) throws SQLException {
-        adresDAO.delete(reiziger.getAdres());
-        for (OVChipkaart ovChipkaart: reiziger.getOvchipkaarten()){
-            odao.delete(ovChipkaart);
-        }
+        if (reiziger.getAdres() != null) {
+        adresDAO.delete(reiziger.getAdres());}
+        if (!reiziger.getOvchipkaarten().isEmpty()) {
+            for (OVChipkaart ovChipkaart: new ArrayList<>(reiziger.getOvchipkaarten())){
+                odao.delete(ovChipkaart);
+        }}
         PreparedStatement statement = conn.prepareStatement("" +"DELETE FROM reiziger where reiziger_id=?");
         statement.setInt(1, reiziger.getId());
 
@@ -82,8 +90,10 @@ public class ReizigerDAOPsql implements ReizigerDAO{
                     resultSet.getDate("geboortedatum")
 
             );
-            reiziger.setAdres(adresDAO.findByReiziger(reiziger));
-            reiziger.setOvchipkaarten(odao.findByReiziger(reiziger));
+            if (reiziger.getAdres() != null) {
+            reiziger.setAdres(adresDAO.findByReiziger(reiziger));}
+            if (!reiziger.getOvchipkaarten().isEmpty()) {
+            reiziger.setOvchipkaarten(odao.findByReiziger(reiziger));}
         }
 
         resultSet.close();
@@ -106,8 +116,10 @@ public class ReizigerDAOPsql implements ReizigerDAO{
                     resultSet.getString("achternaam"),
                     resultSet.getDate("geboortedatum")
             );
-            reiziger.setAdres(adresDAO.findByReiziger(reiziger));
-            reiziger.setOvchipkaarten(odao.findByReiziger(reiziger));
+            if (reiziger.getAdres() != null) {
+            reiziger.setAdres(adresDAO.findByReiziger(reiziger));}
+            if (!reiziger.getOvchipkaarten().isEmpty()) {
+            reiziger.setOvchipkaarten(odao.findByReiziger(reiziger));}
             Reizigerlist.add(reiziger);
         }
         resultSet.close();
@@ -123,8 +135,10 @@ public class ReizigerDAOPsql implements ReizigerDAO{
         while (resultSet.next()){
             Reiziger reiziger= new  Reiziger(resultSet.getInt("reiziger_id"),resultSet.getString("voorletters"),resultSet.getString("tussenvoegsel"),
                     resultSet.getString("achternaam"),resultSet.getDate("geboortedatum"));
-            reiziger.setAdres(adresDAO.findByReiziger(reiziger));
-            reiziger.setOvchipkaarten(odao.findByReiziger(reiziger));
+            if (reiziger.getAdres() != null) {
+            reiziger.setAdres(adresDAO.findByReiziger(reiziger));}
+            if (!reiziger.getOvchipkaarten().isEmpty()) {
+            reiziger.setOvchipkaarten(odao.findByReiziger(reiziger));}
             Reizigerlist.add(reiziger);
         }
         return Reizigerlist;

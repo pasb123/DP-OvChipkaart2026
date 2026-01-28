@@ -1,20 +1,83 @@
-de output werd te lang dus hierbij een txt file van de output(copy+paste)
-
----------- Test ReizigerDAO en AdresDAO en ovchipkaartDAO -------------
+---------- Test ReizigerDAO -------------
 [Test] ReizigerDAO.findAll() geeft de volgende reizigers:
-Reiziger{reiziger_id=1, voorletters='G', tussenvoegsel='van', achternaam='Rijn', geboortedatum=2002-09-17, adres=Adres{id=1, postcode='3511LX', straat='Visschersplein', woonplaats='Utrecht', huisnummer='37', reiziger=1}, ovchipkaarten=[]}
-Reiziger{reiziger_id=2, voorletters='B', tussenvoegsel='van', achternaam='Rijn', geboortedatum=2002-10-22, adres=Adres{id=2, postcode='3521AL', straat='Jaarbeursplein', woonplaats='Utrecht', huisnummer='6A', reiziger=2}, ovchipkaarten=[OVChipkaart{kaartNummer=35283, geldigTot=2018-05-31, klasse=2, saldo=25.5, reiziger=2}, OVChipkaart{kaartNummer=46392, geldigTot=2017-05-31, klasse=2, saldo=5.5, reiziger=2}, OVChipkaart{kaartNummer=57401, geldigTot=2015-05-31, klasse=2, saldo=0.0, reiziger=2}]}
-Reiziger{reiziger_id=3, voorletters='H', tussenvoegsel='null', achternaam='Lubben', geboortedatum=1998-08-11, adres=Adres{id=3, postcode='6707AA', straat='Stadsbrink', woonplaats='Wageningen', huisnummer='375', reiziger=3}, ovchipkaarten=[OVChipkaart{kaartNummer=68514, geldigTot=2020-03-31, klasse=1, saldo=2.5, reiziger=3}]}
-Reiziger{reiziger_id=4, voorletters='F', tussenvoegsel='null', achternaam='Memari', geboortedatum=2002-12-03, adres=Adres{id=4, postcode='3817CH', straat='Arnhemseweg', woonplaats='Amersfoort', huisnummer='4', reiziger=4}, ovchipkaarten=[OVChipkaart{kaartNummer=79625, geldigTot=2020-01-31, klasse=1, saldo=25.5, reiziger=4}]}
-Reiziger{reiziger_id=5, voorletters='G', tussenvoegsel='null', achternaam='Piccardo', geboortedatum=2002-12-03, adres=Adres{id=5, postcode='3572WP', straat='Vermeulenstraat', woonplaats='Utrecht', huisnummer='22', reiziger=5}, ovchipkaarten=[OVChipkaart{kaartNummer=90537, geldigTot=2019-12-31, klasse=2, saldo=20.0, reiziger=5}, OVChipkaart{kaartNummer=18326, geldigTot=2017-12-31, klasse=2, saldo=0.0, reiziger=5}]}
+Reiziger{reiziger_id=1, voorletters='G', tussenvoegsel='van', achternaam='Rijn', geboortedatum=2002-09-17, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=2, voorletters='B', tussenvoegsel='van', achternaam='Rijn', geboortedatum=2002-10-22, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=3, voorletters='H', tussenvoegsel='null', achternaam='Lubben', geboortedatum=1998-08-11, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=4, voorletters='F', tussenvoegsel='null', achternaam='Memari', geboortedatum=2002-12-03, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=5, voorletters='G', tussenvoegsel='null', achternaam='Piccardo', geboortedatum=2002-12-03, adres=null, ovchipkaarten=[]}
 
-[Test] AdresDAO.findAll() geeft de volgende adressen:
+[Test] Eerst 5 reizigers, na ReizigerDAO.save() 6 reizigers
+
+Reiziger{reiziger_id=1, voorletters='G', tussenvoegsel='van', achternaam='Rijn', geboortedatum=2002-09-17, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=2, voorletters='B', tussenvoegsel='van', achternaam='Rijn', geboortedatum=2002-10-22, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=3, voorletters='H', tussenvoegsel='null', achternaam='Lubben', geboortedatum=1998-08-11, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=4, voorletters='F', tussenvoegsel='null', achternaam='Memari', geboortedatum=2002-12-03, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=5, voorletters='G', tussenvoegsel='null', achternaam='Piccardo', geboortedatum=2002-12-03, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=77, voorletters='S', tussenvoegsel='', achternaam='Boers', geboortedatum=1981-03-14, adres=null, ovchipkaarten=[]}
+[Test] Eerst 6 reizigers, na ReizigerDAO.update() 6 reizigers
+
+Reiziger{reiziger_id=1, voorletters='G', tussenvoegsel='van', achternaam='Rijn', geboortedatum=2002-09-17, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=2, voorletters='B', tussenvoegsel='van', achternaam='Rijn', geboortedatum=2002-10-22, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=3, voorletters='H', tussenvoegsel='null', achternaam='Lubben', geboortedatum=1998-08-11, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=4, voorletters='F', tussenvoegsel='null', achternaam='Memari', geboortedatum=2002-12-03, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=5, voorletters='G', tussenvoegsel='null', achternaam='Piccardo', geboortedatum=2002-12-03, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=77, voorletters='S O', tussenvoegsel='', achternaam='Boersen', geboortedatum=1981-03-14, adres=null, ovchipkaarten=[]}
+[Test] Eerst 6 reizigers, na ReizigerDAO.delete() 5 reizigers
+
+Reiziger{reiziger_id=1, voorletters='G', tussenvoegsel='van', achternaam='Rijn', geboortedatum=2002-09-17, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=2, voorletters='B', tussenvoegsel='van', achternaam='Rijn', geboortedatum=2002-10-22, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=3, voorletters='H', tussenvoegsel='null', achternaam='Lubben', geboortedatum=1998-08-11, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=4, voorletters='F', tussenvoegsel='null', achternaam='Memari', geboortedatum=2002-12-03, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=5, voorletters='G', tussenvoegsel='null', achternaam='Piccardo', geboortedatum=2002-12-03, adres=null, ovchipkaarten=[]}
+
+[Test] Test ReizigerDAO.findById()
+Reiziger met ID: 5 Piccardo
+
+[Test] Test ReizigerDAO.findByGbdatum()
+Reizigers met geboortedatum 2002-12-03:
+Reiziger{reiziger_id=4, voorletters='F', tussenvoegsel='null', achternaam='Memari', geboortedatum=2002-12-03, adres=null, ovchipkaarten=[]}
+Reiziger{reiziger_id=5, voorletters='G', tussenvoegsel='null', achternaam='Piccardo', geboortedatum=2002-12-03, adres=null, ovchipkaarten=[]}
+
+---------- Test nl.hu.ovchip.data.DAO.AdresDAO -------------
+test class nl.hu.dp.dao.AdresDAOPsql
+[Test] nl.hu.ovchip.data.DAO.AdresDAO.findAll() geeft de volgende adressen:
 Adres{id=1, postcode='3511LX', straat='Visschersplein', woonplaats='Utrecht', huisnummer='37', reiziger=1}
 Adres{id=2, postcode='3521AL', straat='Jaarbeursplein', woonplaats='Utrecht', huisnummer='6A', reiziger=2}
 Adres{id=3, postcode='6707AA', straat='Stadsbrink', woonplaats='Wageningen', huisnummer='375', reiziger=3}
 Adres{id=4, postcode='3817CH', straat='Arnhemseweg', woonplaats='Amersfoort', huisnummer='4', reiziger=4}
 Adres{id=5, postcode='3572WP', straat='Vermeulenstraat', woonplaats='Utrecht', huisnummer='22', reiziger=5}
-[Test] OVchipkaartDAO.findAll() geeft de volgende adressen:
+
+[Test] Eerst 5 reizigers, na nl.hu.ovchip.data.DAO.ReizigerDAO.save() 6 reizigers
+
+[Test] Eerst 5 adressen, na nl.hu.ovchip.data.DAO.AdresDAO.save() 6 adressen
+
+Adres{id=1, postcode='3511LX', straat='Visschersplein', woonplaats='Utrecht', huisnummer='37', reiziger=1}
+Adres{id=2, postcode='3521AL', straat='Jaarbeursplein', woonplaats='Utrecht', huisnummer='6A', reiziger=2}
+Adres{id=3, postcode='6707AA', straat='Stadsbrink', woonplaats='Wageningen', huisnummer='375', reiziger=3}
+Adres{id=4, postcode='3817CH', straat='Arnhemseweg', woonplaats='Amersfoort', huisnummer='4', reiziger=4}
+Adres{id=5, postcode='3572WP', straat='Vermeulenstraat', woonplaats='Utrecht', huisnummer='22', reiziger=5}
+Adres{id=88, postcode='1234AB', straat='Langelaan', woonplaats='Nieuwe Stad', huisnummer='123', reiziger=77}
+
+[Test] Eerst 6 adressen, na nl.hu.ovchip.data.DAO.AdresDAO.update() 6 adressen
+
+Adres{id=1, postcode='3511LX', straat='Visschersplein', woonplaats='Utrecht', huisnummer='37', reiziger=1}
+Adres{id=2, postcode='3521AL', straat='Jaarbeursplein', woonplaats='Utrecht', huisnummer='6A', reiziger=2}
+Adres{id=3, postcode='6707AA', straat='Stadsbrink', woonplaats='Wageningen', huisnummer='375', reiziger=3}
+Adres{id=4, postcode='3817CH', straat='Arnhemseweg', woonplaats='Amersfoort', huisnummer='4', reiziger=4}
+Adres{id=5, postcode='3572WP', straat='Vermeulenstraat', woonplaats='Utrecht', huisnummer='22', reiziger=5}
+Adres{id=88, postcode='1234AB', straat='Heel Erg Langelaan', woonplaats='Nieuwegein', huisnummer='123', reiziger=77}
+[Test] Eerst 6 adressen, na nl.hu.ovchip.data.DAO.AdresDAO.findByReiziger() het adres is Adres{id=88, postcode='1234AB', straat='Heel Erg Langelaan', woonplaats='Nieuwegein', huisnummer='123', reiziger=77}
+[Test] Eerst 6 adressen, na nl.hu.ovchip.data.DAO.AdresDAO.delete() 5 adressen
+
+Adres{id=1, postcode='3511LX', straat='Visschersplein', woonplaats='Utrecht', huisnummer='37', reiziger=1}
+Adres{id=2, postcode='3521AL', straat='Jaarbeursplein', woonplaats='Utrecht', huisnummer='6A', reiziger=2}
+Adres{id=3, postcode='6707AA', straat='Stadsbrink', woonplaats='Wageningen', huisnummer='375', reiziger=3}
+Adres{id=4, postcode='3817CH', straat='Arnhemseweg', woonplaats='Amersfoort', huisnummer='4', reiziger=4}
+Adres{id=5, postcode='3572WP', straat='Vermeulenstraat', woonplaats='Utrecht', huisnummer='22', reiziger=5}
+
+---------- Test nl.hu.dp.dao.OVChipkaartDAO -------------
+test class nl.hu.dp.dao.OVChipkaartPsql
+[Test] OVChipkaartDAO.findAll() geeft de volgende kaarten:
 OVChipkaart{kaartNummer=35283, geldigTot=2018-05-31, klasse=2, saldo=25.5, reiziger=2}
 OVChipkaart{kaartNummer=46392, geldigTot=2017-05-31, klasse=2, saldo=5.5, reiziger=2}
 OVChipkaart{kaartNummer=57401, geldigTot=2015-05-31, klasse=2, saldo=0.0, reiziger=2}
@@ -22,34 +85,42 @@ OVChipkaart{kaartNummer=68514, geldigTot=2020-03-31, klasse=1, saldo=2.5, reizig
 OVChipkaart{kaartNummer=79625, geldigTot=2020-01-31, klasse=1, saldo=25.5, reiziger=4}
 OVChipkaart{kaartNummer=90537, geldigTot=2019-12-31, klasse=2, saldo=20.0, reiziger=5}
 OVChipkaart{kaartNummer=18326, geldigTot=2017-12-31, klasse=2, saldo=0.0, reiziger=5}
-[Test] Eerst 5 reizigers, na ReizigerDAO.save()  en AdresDAO.save en OvchipkaartDAO.save() 6 reizigers
 
-Reiziger{reiziger_id=1, voorletters='G', tussenvoegsel='van', achternaam='Rijn', geboortedatum=2002-09-17, adres=Adres{id=1, postcode='3511LX', straat='Visschersplein', woonplaats='Utrecht', huisnummer='37', reiziger=1}, ovchipkaarten=[]}
-Reiziger{reiziger_id=2, voorletters='B', tussenvoegsel='van', achternaam='Rijn', geboortedatum=2002-10-22, adres=Adres{id=2, postcode='3521AL', straat='Jaarbeursplein', woonplaats='Utrecht', huisnummer='6A', reiziger=2}, ovchipkaarten=[OVChipkaart{kaartNummer=35283, geldigTot=2018-05-31, klasse=2, saldo=25.5, reiziger=2}, OVChipkaart{kaartNummer=46392, geldigTot=2017-05-31, klasse=2, saldo=5.5, reiziger=2}, OVChipkaart{kaartNummer=57401, geldigTot=2015-05-31, klasse=2, saldo=0.0, reiziger=2}]}
-Reiziger{reiziger_id=3, voorletters='H', tussenvoegsel='null', achternaam='Lubben', geboortedatum=1998-08-11, adres=Adres{id=3, postcode='6707AA', straat='Stadsbrink', woonplaats='Wageningen', huisnummer='375', reiziger=3}, ovchipkaarten=[OVChipkaart{kaartNummer=68514, geldigTot=2020-03-31, klasse=1, saldo=2.5, reiziger=3}]}
-Reiziger{reiziger_id=4, voorletters='F', tussenvoegsel='null', achternaam='Memari', geboortedatum=2002-12-03, adres=Adres{id=4, postcode='3817CH', straat='Arnhemseweg', woonplaats='Amersfoort', huisnummer='4', reiziger=4}, ovchipkaarten=[OVChipkaart{kaartNummer=79625, geldigTot=2020-01-31, klasse=1, saldo=25.5, reiziger=4}]}
-Reiziger{reiziger_id=5, voorletters='G', tussenvoegsel='null', achternaam='Piccardo', geboortedatum=2002-12-03, adres=Adres{id=5, postcode='3572WP', straat='Vermeulenstraat', woonplaats='Utrecht', huisnummer='22', reiziger=5}, ovchipkaarten=[OVChipkaart{kaartNummer=90537, geldigTot=2019-12-31, klasse=2, saldo=20.0, reiziger=5}, OVChipkaart{kaartNummer=18326, geldigTot=2017-12-31, klasse=2, saldo=0.0, reiziger=5}]}
-Reiziger{reiziger_id=77, voorletters='S', tussenvoegsel='', achternaam='Boers', geboortedatum=1981-03-14, adres=Adres{id=78, postcode='3951BE', straat='Tuindorpweg', woonplaats='Baarn', huisnummer='1', reiziger=77}, ovchipkaarten=[OVChipkaart{kaartNummer=44, geldigTot=2030-01-01, klasse=1, saldo=12.99, reiziger=77}, OVChipkaart{kaartNummer=56, geldigTot=2030-01-01, klasse=1, saldo=25.0, reiziger=77}]}
-[Test] Eerst 6 reizigers, na ReizigerDAO.update() en AdresDAO.update()en OvchipkaartDAO.update()6 reizigers
+[Test] Eerst 5 reizigers, na ReizigerDAO.save() 6 reizigers
 
-Reiziger{reiziger_id=1, voorletters='G', tussenvoegsel='van', achternaam='Rijn', geboortedatum=2002-09-17, adres=Adres{id=1, postcode='3511LX', straat='Visschersplein', woonplaats='Utrecht', huisnummer='37', reiziger=1}, ovchipkaarten=[]}
-Reiziger{reiziger_id=2, voorletters='B', tussenvoegsel='van', achternaam='Rijn', geboortedatum=2002-10-22, adres=Adres{id=2, postcode='3521AL', straat='Jaarbeursplein', woonplaats='Utrecht', huisnummer='6A', reiziger=2}, ovchipkaarten=[OVChipkaart{kaartNummer=35283, geldigTot=2018-05-31, klasse=2, saldo=25.5, reiziger=2}, OVChipkaart{kaartNummer=46392, geldigTot=2017-05-31, klasse=2, saldo=5.5, reiziger=2}, OVChipkaart{kaartNummer=57401, geldigTot=2015-05-31, klasse=2, saldo=0.0, reiziger=2}]}
-Reiziger{reiziger_id=3, voorletters='H', tussenvoegsel='null', achternaam='Lubben', geboortedatum=1998-08-11, adres=Adres{id=3, postcode='6707AA', straat='Stadsbrink', woonplaats='Wageningen', huisnummer='375', reiziger=3}, ovchipkaarten=[OVChipkaart{kaartNummer=68514, geldigTot=2020-03-31, klasse=1, saldo=2.5, reiziger=3}]}
-Reiziger{reiziger_id=4, voorletters='F', tussenvoegsel='null', achternaam='Memari', geboortedatum=2002-12-03, adres=Adres{id=4, postcode='3817CH', straat='Arnhemseweg', woonplaats='Amersfoort', huisnummer='4', reiziger=4}, ovchipkaarten=[OVChipkaart{kaartNummer=79625, geldigTot=2020-01-31, klasse=1, saldo=25.5, reiziger=4}]}
-Reiziger{reiziger_id=5, voorletters='G', tussenvoegsel='null', achternaam='Piccardo', geboortedatum=2002-12-03, adres=Adres{id=5, postcode='3572WP', straat='Vermeulenstraat', woonplaats='Utrecht', huisnummer='22', reiziger=5}, ovchipkaarten=[OVChipkaart{kaartNummer=90537, geldigTot=2019-12-31, klasse=2, saldo=20.0, reiziger=5}, OVChipkaart{kaartNummer=18326, geldigTot=2017-12-31, klasse=2, saldo=0.0, reiziger=5}]}
-Reiziger{reiziger_id=77, voorletters='S O', tussenvoegsel='', achternaam='Boersen', geboortedatum=1981-03-14, adres=Adres{id=78, postcode='3951BE', straat='Tuindorpweg', woonplaats='Maarn', huisnummer='1', reiziger=77}, ovchipkaarten=[OVChipkaart{kaartNummer=56, geldigTot=2030-01-01, klasse=1, saldo=25.0, reiziger=77}, OVChipkaart{kaartNummer=44, geldigTot=2034-01-01, klasse=1, saldo=12.99, reiziger=77}]}
-[Test] Eerst 6 reizigers, na ReizigerDAO.delete() en AdresDAO.delete() en OvchipkaartDAO.delete() 5 reizigers
+[Test] Eerst 7 kaarten, na OVChipkaartDAO.save() 9 kaarten
 
-Reiziger{reiziger_id=1, voorletters='G', tussenvoegsel='van', achternaam='Rijn', geboortedatum=2002-09-17, adres=Adres{id=1, postcode='3511LX', straat='Visschersplein', woonplaats='Utrecht', huisnummer='37', reiziger=1}, ovchipkaarten=[]}
-Reiziger{reiziger_id=2, voorletters='B', tussenvoegsel='van', achternaam='Rijn', geboortedatum=2002-10-22, adres=Adres{id=2, postcode='3521AL', straat='Jaarbeursplein', woonplaats='Utrecht', huisnummer='6A', reiziger=2}, ovchipkaarten=[OVChipkaart{kaartNummer=35283, geldigTot=2018-05-31, klasse=2, saldo=25.5, reiziger=2}, OVChipkaart{kaartNummer=46392, geldigTot=2017-05-31, klasse=2, saldo=5.5, reiziger=2}, OVChipkaart{kaartNummer=57401, geldigTot=2015-05-31, klasse=2, saldo=0.0, reiziger=2}]}
-Reiziger{reiziger_id=3, voorletters='H', tussenvoegsel='null', achternaam='Lubben', geboortedatum=1998-08-11, adres=Adres{id=3, postcode='6707AA', straat='Stadsbrink', woonplaats='Wageningen', huisnummer='375', reiziger=3}, ovchipkaarten=[OVChipkaart{kaartNummer=68514, geldigTot=2020-03-31, klasse=1, saldo=2.5, reiziger=3}]}
-Reiziger{reiziger_id=4, voorletters='F', tussenvoegsel='null', achternaam='Memari', geboortedatum=2002-12-03, adres=Adres{id=4, postcode='3817CH', straat='Arnhemseweg', woonplaats='Amersfoort', huisnummer='4', reiziger=4}, ovchipkaarten=[OVChipkaart{kaartNummer=79625, geldigTot=2020-01-31, klasse=1, saldo=25.5, reiziger=4}]}
-Reiziger{reiziger_id=5, voorletters='G', tussenvoegsel='null', achternaam='Piccardo', geboortedatum=2002-12-03, adres=Adres{id=5, postcode='3572WP', straat='Vermeulenstraat', woonplaats='Utrecht', huisnummer='22', reiziger=5}, ovchipkaarten=[OVChipkaart{kaartNummer=90537, geldigTot=2019-12-31, klasse=2, saldo=20.0, reiziger=5}, OVChipkaart{kaartNummer=18326, geldigTot=2017-12-31, klasse=2, saldo=0.0, reiziger=5}]}
+OVChipkaart{kaartNummer=35283, geldigTot=2018-05-31, klasse=2, saldo=25.5, reiziger=2}
+OVChipkaart{kaartNummer=46392, geldigTot=2017-05-31, klasse=2, saldo=5.5, reiziger=2}
+OVChipkaart{kaartNummer=57401, geldigTot=2015-05-31, klasse=2, saldo=0.0, reiziger=2}
+OVChipkaart{kaartNummer=68514, geldigTot=2020-03-31, klasse=1, saldo=2.5, reiziger=3}
+OVChipkaart{kaartNummer=79625, geldigTot=2020-01-31, klasse=1, saldo=25.5, reiziger=4}
+OVChipkaart{kaartNummer=90537, geldigTot=2019-12-31, klasse=2, saldo=20.0, reiziger=5}
+OVChipkaart{kaartNummer=18326, geldigTot=2017-12-31, klasse=2, saldo=0.0, reiziger=5}
+OVChipkaart{kaartNummer=9999, geldigTot=2026-12-31, klasse=1, saldo=50.0, reiziger=77}
+OVChipkaart{kaartNummer=7777, geldigTot=2026-12-31, klasse=1, saldo=50.0, reiziger=77}
 
-[Test] Test ReizigerDAO.findById() en AdresDAO.getByReiziger() en OvchipkaartDAO.getByReiziger() 
-Reiziger met ID: Reiziger{reiziger_id=5, voorletters='G', tussenvoegsel='null', achternaam='Piccardo', geboortedatum=2002-12-03, adres=Adres{id=5, postcode='3572WP', straat='Vermeulenstraat', woonplaats='Utrecht', huisnummer='22', reiziger=5}, ovchipkaarten=[OVChipkaart{kaartNummer=90537, geldigTot=2019-12-31, klasse=2, saldo=20.0, reiziger=5}, OVChipkaart{kaartNummer=18326, geldigTot=2017-12-31, klasse=2, saldo=0.0, reiziger=5}]}
+[Test] Eerst 9 kaarten, na OVChipkaartDAO.update() 9 kaarten
 
-[Test] Test ReizigerDAO.findByGbdatum()
-Reizigers met geboortedatum 2002-12-03:
-Reiziger{reiziger_id=4, voorletters='F', tussenvoegsel='null', achternaam='Memari', geboortedatum=2002-12-03, adres=Adres{id=4, postcode='3817CH', straat='Arnhemseweg', woonplaats='Amersfoort', huisnummer='4', reiziger=4}, ovchipkaarten=[OVChipkaart{kaartNummer=79625, geldigTot=2020-01-31, klasse=1, saldo=25.5, reiziger=4}]}
-Reiziger{reiziger_id=5, voorletters='G', tussenvoegsel='null', achternaam='Piccardo', geboortedatum=2002-12-03, adres=Adres{id=5, postcode='3572WP', straat='Vermeulenstraat', woonplaats='Utrecht', huisnummer='22', reiziger=5}, ovchipkaarten=[OVChipkaart{kaartNummer=90537, geldigTot=2019-12-31, klasse=2, saldo=20.0, reiziger=5}, OVChipkaart{kaartNummer=18326, geldigTot=2017-12-31, klasse=2, saldo=0.0, reiziger=5}]}
+OVChipkaart{kaartNummer=35283, geldigTot=2018-05-31, klasse=2, saldo=25.5, reiziger=2}
+OVChipkaart{kaartNummer=46392, geldigTot=2017-05-31, klasse=2, saldo=5.5, reiziger=2}
+OVChipkaart{kaartNummer=57401, geldigTot=2015-05-31, klasse=2, saldo=0.0, reiziger=2}
+OVChipkaart{kaartNummer=68514, geldigTot=2020-03-31, klasse=1, saldo=2.5, reiziger=3}
+OVChipkaart{kaartNummer=79625, geldigTot=2020-01-31, klasse=1, saldo=25.5, reiziger=4}
+OVChipkaart{kaartNummer=90537, geldigTot=2019-12-31, klasse=2, saldo=20.0, reiziger=5}
+OVChipkaart{kaartNummer=18326, geldigTot=2017-12-31, klasse=2, saldo=0.0, reiziger=5}
+OVChipkaart{kaartNummer=7777, geldigTot=2026-12-31, klasse=1, saldo=50.0, reiziger=77}
+OVChipkaart{kaartNummer=9999, geldigTot=2026-12-31, klasse=1, saldo=75.0, reiziger=77}
+
+[Test] FindByReiziger voor Reiziger{reiziger_id=77, voorletters='P', tussenvoegsel='', achternaam='Jansen', geboortedatum=1995-06-15, adres=null, ovchipkaarten=[OVChipkaart{kaartNummer=7777, geldigTot=2026-12-31, klasse=1, saldo=50.0, reiziger=77}, OVChipkaart{kaartNummer=9999, geldigTot=2026-12-31, klasse=1, saldo=75.0, reiziger=77}]}: OVChipkaart{kaartNummer=7777, geldigTot=2026-12-31, klasse=1, saldo=50.0, reiziger=77}
+OVChipkaart{kaartNummer=9999, geldigTot=2026-12-31, klasse=1, saldo=75.0, reiziger=77}
+
+[Test] Eerst 9 kaarten, na OVChipkaartDAO.delete() 7 kaarten
+
+OVChipkaart{kaartNummer=35283, geldigTot=2018-05-31, klasse=2, saldo=25.5, reiziger=2}
+OVChipkaart{kaartNummer=46392, geldigTot=2017-05-31, klasse=2, saldo=5.5, reiziger=2}
+OVChipkaart{kaartNummer=57401, geldigTot=2015-05-31, klasse=2, saldo=0.0, reiziger=2}
+OVChipkaart{kaartNummer=68514, geldigTot=2020-03-31, klasse=1, saldo=2.5, reiziger=3}
+OVChipkaart{kaartNummer=79625, geldigTot=2020-01-31, klasse=1, saldo=25.5, reiziger=4}
+OVChipkaart{kaartNummer=90537, geldigTot=2019-12-31, klasse=2, saldo=20.0, reiziger=5}
+OVChipkaart{kaartNummer=18326, geldigTot=2017-12-31, klasse=2, saldo=0.0, reiziger=5}
