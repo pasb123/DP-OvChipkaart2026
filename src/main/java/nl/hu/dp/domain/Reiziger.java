@@ -2,7 +2,9 @@ package nl.hu.dp.domain;
 
 
 import java.sql.Date;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 
 public class Reiziger  {
@@ -12,6 +14,7 @@ public class Reiziger  {
     private String achternaam;
     private Date geboortedatum;
     private Adres adres;
+    private List<OVChipkaart> ovchipkaarten = new ArrayList<OVChipkaart>();
 
     protected Reiziger(){}
 
@@ -75,6 +78,21 @@ public class Reiziger  {
         this.adres = adres;
     }
 
+    public List<OVChipkaart> getOvchipkaarten() {
+        return ovchipkaarten;
+    }
+
+     public void addToOvChipkaarten(OVChipkaart ovchipkaart) {
+        ovchipkaarten.add(ovchipkaart);
+     }
+     public void removeFromOvChipkaarten(OVChipkaart ovchipkaart) {
+        ovchipkaarten.removeIf(oldCard-> oldCard.getKaartNummer().equals(ovchipkaart.getKaartNummer()));
+     }
+
+    public void setOvchipkaarten(List<OVChipkaart> ovchipkaarten) {
+        this.ovchipkaarten = ovchipkaarten;
+    }
+
     @Override
     public String toString() {
         return "Reiziger{" +
@@ -84,6 +102,7 @@ public class Reiziger  {
                 ", achternaam='" + achternaam + '\'' +
                 ", geboortedatum=" + geboortedatum +
                 ", adres=" + adres +
+                ", ovchipkaarten=" + ovchipkaarten +
                 '}';
     }
 }
