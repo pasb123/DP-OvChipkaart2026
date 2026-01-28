@@ -4,6 +4,8 @@ package nl.hu.dp.domain;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "reiziger")
@@ -21,7 +23,8 @@ public class Reiziger  {
     private Date geboortedatum;
     @OneToOne(mappedBy = "reiziger",cascade = CascadeType.ALL,fetch = FetchType.LAZY,orphanRemoval = true)
     private Adres adres;
-
+    @OneToMany(mappedBy = "reiziger", cascade = CascadeType.ALL,fetch = FetchType.LAZY,orphanRemoval = true)
+    private List<OVChipkaart>ovchipkaarten = new ArrayList<>();
 
     protected Reiziger(){}
 
@@ -81,6 +84,20 @@ public class Reiziger  {
         this.adres = adres;
     }
 
+
+    public List<OVChipkaart> getOvchipkaarten() {
+        return ovchipkaarten;
+    }
+
+    public void setOvchipkaarten(List<OVChipkaart> ovchipkaarten) {
+        this.ovchipkaarten = ovchipkaarten;
+    }
+    public void addToOvChipkaarten(OVChipkaart ovchipkaart) {
+        ovchipkaarten.add(ovchipkaart);
+    }
+    public void removeFromOvChipkaarten(OVChipkaart ovchipkaart) {
+        ovchipkaarten.removeIf(oldCard-> oldCard.getKaartNummer().equals(ovchipkaart.getKaartNummer()));
+    }
     @Override
     public String toString() {
         return "Reiziger{" +
