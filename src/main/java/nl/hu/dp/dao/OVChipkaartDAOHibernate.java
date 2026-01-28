@@ -2,6 +2,7 @@ package nl.hu.dp.dao;
 
 import nl.hu.dp.domain.Adres;
 import nl.hu.dp.domain.OVChipkaart;
+import nl.hu.dp.domain.Product;
 import nl.hu.dp.domain.Reiziger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -33,7 +34,7 @@ public class OVChipkaartDAOHibernate implements OVChipkaartDAO {
     public boolean update(OVChipkaart chipkaart) {
         try {
 
-            if (session.get(Adres.class,chipkaart.getKaartNummer())!=null){
+            if (session.get(OVChipkaart.class,chipkaart.getKaartNummer())!=null){
                 session.beginTransaction();
                 session.update(chipkaart);
                 session.getTransaction().commit();
@@ -49,6 +50,9 @@ public class OVChipkaartDAOHibernate implements OVChipkaartDAO {
     public boolean delete(OVChipkaart chipkaart) {
         try{
             session.beginTransaction();
+            for (Product product : chipkaart.getProducten()) {
+               chipkaart.removeProduct(product);
+            }
             session.delete(chipkaart);
             session.getTransaction().commit();}
         catch (HibernateException e){

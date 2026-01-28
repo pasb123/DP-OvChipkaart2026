@@ -9,5 +9,6 @@
 <mapping class="nl.hu.dp.domain.Reiziger"/>
 <mapping class="nl.hu.dp.domain.Adres"/>
 <mapping class="nl.hu.dp.domain.OVChipkaart"/>
+<mapping class="nl.hu.dp.domain.Product"/>
 </session-factory>
 </hibernate-configuration>

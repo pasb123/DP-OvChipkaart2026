@@ -3,6 +3,7 @@ package nl.hu.dp;
 import nl.hu.dp.dao.*;
 import nl.hu.dp.domain.Adres;
 import nl.hu.dp.domain.OVChipkaart;
+import nl.hu.dp.domain.Product;
 import nl.hu.dp.domain.Reiziger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -205,7 +206,6 @@ public class Main {
         kaart1.setKlasse(1);
         piet.removeFromOvChipkaarten(kaart1);
         piet.addToOvChipkaarten(kaart1);
-        odao.update(kaart1);
         System.out.print("[Test] Eerst " + kaarten.size() + " kaarten, na OVChipkaartDAO.update() ");
         rdao.update(piet);
         kaarten = odao.findAll();
@@ -233,13 +233,81 @@ public class Main {
             System.out.println(k);
         }
     }
+    private static void testProductDAO(ProductDAO pdao, OVChipkaartDAO odao, ReizigerDAO rdao) {
+        System.out.println("\n---------- Test nl.hu.dp.dao.ProductDAO -------------");
+        System.out.println("test " + pdao.getClass());
+
+        // Haal alle producten op uit de database
+        List<Product> producten = pdao.findAll();
+        System.out.println("[Test] ProductDAO.findAll() geeft de volgende producten:");
+        for (Product p : producten) System.out.println(p);
+        System.out.println();
+
+        // Maak een nieuwe reiziger aan
+        String gbdatum = "1995-06-15";
+        Reiziger piet = new Reiziger(100, "P", "", "Jansen", Date.valueOf(gbdatum));
+        rdao.save(piet);
+
+        // Maak een nieuwe OV-chipkaart aan
+        OVChipkaart kaart1 = new OVChipkaart(8888, Date.valueOf("2026-12-31"), 1, 50.0, piet);
+        piet.addToOvChipkaarten(kaart1);
+        odao.save(kaart1);
+        rdao.update(piet);
+
+        // Maak nieuwe producten aan en koppel aan OV-chipkaart
+        Product product1 = new Product(101, "Gratis Utrecht", "Gratis met de bus door Utrecht", 10.0);
+        Product product2 = new Product(102, "Veluwe tour", "gratis met de bus door de Veluwe", 15.0);
+
+        pdao.save(product1);
+        pdao.save(product2);
+        kaart1.addProduct(product1);
+        kaart1.addProduct(product2);
+        odao.update(kaart1);
+        System.out.print("[Test] Eerst " + producten.size() + " producten, na ProductDAO.save() ");
+
+        producten = pdao.findAll();
+        System.out.println(producten.size() + " producten\n");
+        for (Product p : producten) System.out.println(p);
+        System.out.println();
+
+        // Update een product
+        product1.setNaam("Gratis provincie Utrecht");
+        product1.setPrijs(12.5);
+        product1.setBeschrijving("Vrij reizen door de hele provincie Utrecht");
+        System.out.print("[Test] Update product " + product1.getProductNummer() + ": ");
+        pdao.update(product1);
+        producten = pdao.findAll();
+        for (Product p : producten) System.out.println(p);
+        System.out.println();
+
+        //Vind producten per OV-chipkaart
+        System.out.println("[Test] Producten gekoppeld aan OV-chipkaart " + kaart1.getKaartNummer() + ":");
+        List<Product> productenVanKaart = pdao.findByOvChipkaart(kaart1);
+        for (Product p : productenVanKaart) System.out.println(p);
+        System.out.println();
+
+        //  Delete producten
+        System.out.print("[Test] Eerst " + producten.size() + " producten, na ProductDAO.delete() ");
+        pdao.delete(product1);
+        pdao.delete(product2);
+        producten = pdao.findAll();
+        System.out.println(producten.size() + " producten\n");
+        for (Product p : producten) System.out.println(p);
+
+        // verwijder OV-chipkaart en reiziger
+        odao.delete(kaart1);
+        rdao.delete(piet);
+    }
+
 
     public static void main(String[] args) {
         ReizigerDAOHibernate reizigerDAOHibernate = new ReizigerDAOHibernate(getSession());
         AdresDAOHibernate adresDAOHibernate = new AdresDAOHibernate(getSession());
         OVChipkaartDAOHibernate ovChipkaartDAOHibernate = new OVChipkaartDAOHibernate(getSession());
+        ProductDAOHibernate productDAOHibernate = new ProductDAOHibernate(getSession());
         testReizigerDAO(reizigerDAOHibernate);
         testAdresDAO(adresDAOHibernate, reizigerDAOHibernate);
         testOVChipkaartDAO(ovChipkaartDAOHibernate,reizigerDAOHibernate);
+        testProductDAO(productDAOHibernate, ovChipkaartDAOHibernate, reizigerDAOHibernate);
     }
 }

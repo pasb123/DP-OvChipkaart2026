@@ -3,6 +3,9 @@ package nl.hu.dp.domain;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "ov_chipkaart")
 public class OVChipkaart {
@@ -18,7 +21,14 @@ public class OVChipkaart {
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "reiziger_id")
     private Reiziger reiziger;
-
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "ov_chipkaart_product",
+            joinColumns = @JoinColumn(name = "kaart_nummer"),
+            inverseJoinColumns = @JoinColumn(name = "product_nummer")
+    )
+    private List<Product> producten=new ArrayList<>();
+    protected OVChipkaart() {}
     public OVChipkaart(int kaartNummer, Date geldigTot, int klasse, double saldo, Reiziger reiziger) {
 
         this.kaartNummer = kaartNummer;
@@ -26,10 +36,6 @@ public class OVChipkaart {
         this.klasse = klasse;
         this.saldo = saldo;
         this.reiziger = reiziger;
-    }
-
-    protected OVChipkaart() {
-
     }
 
     public Integer getKaartNummer() {
@@ -72,6 +78,22 @@ public class OVChipkaart {
         this.reiziger = reiziger;
     }
 
+    public List<Product> getProducten() {
+        return producten;
+    }
+
+    public void setProducten(List<Product> producten) {
+        this.producten = producten;
+    }
+    public void addProduct(Product product) {
+        this.producten.add(product);
+        product.addChipkaart(this);
+    }
+    public void removeProduct(Product product) {
+        this.producten.remove(product);
+        product.removeChipkaart(this);
+    }
+
     @Override
     public String toString() {
         return "OVChipkaart{" +
@@ -80,6 +102,7 @@ public class OVChipkaart {
                 ", klasse=" + klasse +
                 ", saldo=" + saldo +
                 ", reiziger=" + reiziger.getId() +
+                ", producten=" + producten +
                 '}';
     }
 }
