@@ -32,7 +32,7 @@ public class AdresDAOHibernate implements AdresDAO {
 
             if (session.get(Adres.class,adres.getId())!=null){
                 session.beginTransaction();
-                session.merge(adres);
+                session.update(adres);
                 session.getTransaction().commit();
             }
         }
