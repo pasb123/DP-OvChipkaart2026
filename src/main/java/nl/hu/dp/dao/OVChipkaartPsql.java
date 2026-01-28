@@ -1,18 +1,18 @@
 package nl.hu.dp.dao;
 
 import nl.hu.dp.domain.OVChipkaart;
+import nl.hu.dp.domain.Product;
 import nl.hu.dp.domain.Reiziger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OVChipkaartPsql implements OVChipkaartDAO {
     private final Connection conn;
     private ReizigerDAO rdao;
+    private ProductDAO pdao;
     public OVChipkaartPsql(Connection conn) {
         this.conn = conn;
     }
@@ -23,6 +23,13 @@ public class OVChipkaartPsql implements OVChipkaartDAO {
         this.rdao = rdao;
     }
 
+    public ProductDAO getPdao() {
+        return pdao;
+    }
+
+    public void setPdao(ProductDAO pdao) {
+        this.pdao = pdao;
+    }
 
     @Override
     public boolean save(OVChipkaart ovChipkaart) throws SQLException {
@@ -35,6 +42,22 @@ public class OVChipkaartPsql implements OVChipkaartDAO {
         ps.setInt(5,ovChipkaart.getReiziger().getReiziger_id());
         ps.execute();
         ps.close();
+        if (pdao != null&& ovChipkaart.getProducten() != null) {
+            for (Product product : ovChipkaart.getProducten()) {
+                ps= this.conn.prepareStatement("insert into " +
+                        "ov_chipkaart_product(kaart_nummer, product_nummer, status, " +
+                        "last_update) VALUES(?,?,?,?)");
+                ps.setInt(1, ovChipkaart.getKaartNummer());
+                ps.setInt(2, product.getProductNummer());
+                ps.setString(3,"actief");
+                ps.setDate(4, Date.valueOf( LocalDate.now()));
+                ps.execute();
+                ps.close();
+
+
+            }
+        }
+
         return true;
     }
 
@@ -52,6 +75,30 @@ public class OVChipkaartPsql implements OVChipkaartDAO {
         reiziger.addToOvChipkaarten(ovChipkaart);
         ps.executeUpdate();
         ps.close();
+        if (pdao != null&&ovChipkaart.getProducten()!= null) {
+            for (Product product : ovChipkaart.getProducten()) {
+                ps= this.conn.prepareStatement("update ov_chipkaart_product set " +
+                        "product_nummer=?, status=?, " +
+                        "last_update=? where kaart_nummer=? and product_nummer=?");
+
+                ps.setInt(1, product.getProductNummer());
+                ps.setString(2,"actief");
+                ps.setDate(3, Date.valueOf( LocalDate.now()));
+                ps.setInt(4, ovChipkaart.getKaartNummer());
+                ps.setInt(5, product.getProductNummer());
+                ps.execute();
+                ps.close();
+                PreparedStatement ps2 = this.conn.prepareStatement(
+                        "update product set naam=?,beschrijving=?," +
+                                "prijs=?where product_nummer=?");
+                ps2.setString(1, product.getNaam());
+                ps2.setString(2, product.getBeschrijving());
+                ps2.setDouble(3, product.getPrijs());
+                ps2.setInt(4, product.getProductNummer());
+                ps2.executeUpdate();
+                ps2.close();
+            }
+        }
 
         return  true;
     }
@@ -62,6 +109,16 @@ public class OVChipkaartPsql implements OVChipkaartDAO {
         ps.setInt(1,ovChipkaart.getKaartNummer());
         ps.execute();
         ps.close();
+        if (pdao != null&& ovChipkaart.getProducten() != null) {
+            for (Product product : ovChipkaart.getProducten()) {
+                ps= this.conn.prepareStatement("delete from ov_chipkaart_product where product_nummer=?");
+                ps.setInt(1, product.getProductNummer());
+                ps.execute();
+                ps.close();
+
+
+            }
+        }
         return true;
     }
 
@@ -98,6 +155,7 @@ public class OVChipkaartPsql implements OVChipkaartDAO {
                     rs.getDouble("saldo"),
                     rdao.findById(rs.getInt("reiziger_id"))
             );
+            ovChipkaart.setProducten(pdao.findByOvChipkaart(ovChipkaart));
             list.add(ovChipkaart);
         }
         return list;

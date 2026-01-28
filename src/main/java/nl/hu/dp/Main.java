@@ -3,6 +3,7 @@ package nl.hu.dp;
 import nl.hu.dp.dao.*;
 import nl.hu.dp.domain.Adres;
 import nl.hu.dp.domain.OVChipkaart;
+import nl.hu.dp.domain.Product;
 import nl.hu.dp.domain.Reiziger;
 
 import java.sql.*;
@@ -179,7 +180,7 @@ public class Main {
             System.out.println(a);
         }
     }
-    private static void testOVChipkaartDAO(OVChipkaartDAO odao, ReizigerDAO rdao) throws SQLException {
+    private static void testOVChipkaartDAO(OVChipkaartDAO odao, ReizigerDAO rdao,ProductDAO pdao) throws SQLException {
         System.out.println("\n---------- Test nl.hu.dp.dao.OVChipkaartDAO -------------");
         System.out.println("test " + odao.getClass());
 
@@ -246,18 +247,86 @@ public class Main {
             System.out.println(k);
         }
     }
+    private static void testProductDAO(ProductDAO pdao, OVChipkaartDAO odao, ReizigerDAO rdao) throws SQLException {
+        System.out.println("\n---------- Test nl.hu.dp.dao.ProductDAO -------------");
+        System.out.println("test " + pdao.getClass());
+
+        // Haal alle producten op uit de database
+        List<Product> producten = pdao.findAll();
+        System.out.println("[Test] ProductDAO.findAll() geeft de volgende producten:");
+        for (Product p : producten) System.out.println(p);
+        System.out.println();
+
+        // Maak een nieuwe reiziger aan
+        String gbdatum = "1995-06-15";
+        Reiziger piet = new Reiziger(100, "P", "", "Jansen", Date.valueOf(gbdatum));
+        rdao.save(piet);
+
+        // Maak een nieuwe OV-chipkaart aan
+        OVChipkaart kaart1 = new OVChipkaart(8888, Date.valueOf("2026-12-31"), 1, 50.0, piet);
+        piet.addToOvChipkaarten(kaart1);
+        odao.save(kaart1);
+        rdao.update(piet);
+
+        // Maak nieuwe producten aan en koppel aan OV-chipkaart
+        Product product1 = new Product(101, "Gratis Utrecht", "Gratis met de bus door Utrecht", 10.0);
+        Product product2 = new Product(102, "Veluwe tour", "gratis met de bus door de Veluwe", 15.0);
+        kaart1.addProduct(product1);
+        kaart1.addProduct(product2);
+
+        System.out.print("[Test] Eerst " + producten.size() + " producten, na ProductDAO.save() ");
+        pdao.save(product1);
+        pdao.save(product2);
+        producten = pdao.findAll();
+        System.out.println(producten.size() + " producten\n");
+        for (Product p : producten) System.out.println(p);
+        System.out.println();
+
+        // Update een product
+        product1.setNaam("Gratis provincie Utrecht");
+        product1.setPrijs(12.5);
+        product1.setBeschrijving("Vrij reizen door de hele provincie Utrecht");
+        System.out.print("[Test] Update product " + product1.getProductNummer() + ": ");
+        pdao.update(product1);
+        producten = pdao.findAll();
+        for (Product p : producten) System.out.println(p);
+        System.out.println();
+
+        //Vind producten per OV-chipkaart
+        System.out.println("[Test] Producten gekoppeld aan OV-chipkaart " + kaart1.getKaartNummer() + ":");
+        List<Product> productenVanKaart = pdao.findByOvChipkaart(kaart1);
+        for (Product p : productenVanKaart) System.out.println(p);
+        System.out.println();
+
+        //  Delete producten
+        System.out.print("[Test] Eerst " + producten.size() + " producten, na ProductDAO.delete() ");
+        pdao.delete(product1);
+        pdao.delete(product2);
+        producten = pdao.findAll();
+        System.out.println(producten.size() + " producten\n");
+        for (Product p : producten) System.out.println(p);
+
+        // verwijder OV-chipkaart en reiziger
+        odao.delete(kaart1);
+        rdao.delete(piet);
+    }
+
 
     public static void main(String[] args) throws SQLException {
         testConnection();
         AdresDAOPsql adresDAOPsql=new AdresDAOPsql(getConnection());
         ReizigerDAOPsql reizigerDAOPsql=new ReizigerDAOPsql(getConnection());
         OVChipkaartPsql ovChipkaartPsql=new OVChipkaartPsql(getConnection());
+        ProductDAOPsql productDAOPsql=new ProductDAOPsql(getConnection());
         ovChipkaartPsql.setRdao(reizigerDAOPsql);
+        ovChipkaartPsql.setPdao(productDAOPsql);
+        productDAOPsql.setOvChipkaartDAO(ovChipkaartPsql);
         adresDAOPsql.setRdao(reizigerDAOPsql);
         reizigerDAOPsql.setAdresDAO(adresDAOPsql);
         reizigerDAOPsql.setOdao(ovChipkaartPsql);
         testReizigerDAO(reizigerDAOPsql);
         testAdresDAO(adresDAOPsql,reizigerDAOPsql);
-        testOVChipkaartDAO(ovChipkaartPsql,reizigerDAOPsql);
+        testOVChipkaartDAO(ovChipkaartPsql,reizigerDAOPsql,productDAOPsql);
+        testProductDAO(productDAOPsql,ovChipkaartPsql,reizigerDAOPsql);
     }
 }
